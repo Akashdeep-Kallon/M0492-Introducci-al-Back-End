@@ -3,7 +3,7 @@ package com.hospital.hospital.model;
 
 public class Nurse {
 
-    private Long id;
+    private int id;
     private String nombre;
     private String apellidos;
     private String email;
@@ -12,7 +12,7 @@ public class Nurse {
     public Nurse() {
     }
 
-    public Nurse(Long id, String nombre, String apellidos, String email, String password) {
+    public Nurse(int id, String nombre, String apellidos, String email, String password) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -20,11 +20,11 @@ public class Nurse {
         this.password = password;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
