@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/nurse")
 public class NurseController {
-
+	
 	private List<Nurse> nurses = new ArrayList<>();
 
 	// Constructor
@@ -35,6 +35,22 @@ public class NurseController {
 
 		}
 	}
+  
+  @PostMapping("/login")
+  
+  public @ResponseBody ResponseEntity<Boolean> login(@RequestBody Nurse inputNurse){
+	  
+	  boolean found = false;
+	  for(Nurse n : nurses) {
+		  
+		  if((n.getUser().equals(inputNurse.getUser)) && (n.getPw().equals(inputNurse.getPw())) {
+			  found = true;
+			  break;
+		  }  
+	  }	     
+	  return ResponseEntity.status(found ? HttpsStatus.OK : HttpsStatus.UNAUTHORIZED).body(found);  
+	  
+  }
 
 	@GetMapping("/index")
 	public List<Nurse> getAll() {
