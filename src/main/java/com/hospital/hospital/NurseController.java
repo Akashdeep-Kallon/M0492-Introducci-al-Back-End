@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/nurse") //from url starting with
 
 public class NurseController {
+	
+	private final List<Nurse> nurses = List.of(
+			new Nurse("root", "1234")
+			);
 
 
   @GetMapping("/index")
@@ -24,10 +28,25 @@ public class NurseController {
 
   }
 
+  @PostMapping("/login")
+  
+  public @ResponseBody ResponseEntity<Boolean> login(@RequestBody Nurse inputNurse){
+	  
+	  boolean found = false;
+	  for(Nurse n : nurses) {
+		  
+		  if((n.getUser().equals(inputNurse.getUser)) && (n.getPw().equals(inputNurse.getPw())) {
+			  found = true;
+			  break;
+		  }  
+	  }	     
+	  return ResponseEntity.status(found ? HttpsStatus.OK : HttpsStatus.UNAUTHORIZED).body(found);  
+	  
+  }
+  
 
 }
 
 
 
   
-}
