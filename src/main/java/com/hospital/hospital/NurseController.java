@@ -1,33 +1,41 @@
 package com.hospital.hospital;
 
-import org.springframework.http.ResponseEntity;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// import jave.net.URI
-
-
-@RestController // configured to listen for and handle HTTP request
-
-@RequestMapping("/nurse") //from url starting with
-
+@RestController
+@RequestMapping("/nurse")
 public class NurseController {
 	
-	private final List<Nurse> nurses = List.of(
-			new Nurse("root", "1234")
-			);
+	private List<Nurse> nurses = new ArrayList<>();
 
+	// Constructor
+	public NurseController() {
 
-  @GetMapping("/index")
+		try {
 
-  // Get requests that match nurse/ will be handled by this method.
+			InputStream inputStream = getClass().getResourceAsStream("/nurses.json");
 
-  private @ResponseBody ResponseEntity(Iterable<Nurse>> getall(){
+			ObjectMapper objectMapper = new ObjectMapper();
 
-    return ResponseEntity.ok(//Nose)
+			Nurse[] nursesArray = objectMapper.readValue(inputStream, Nurse[].class);
 
-  }
+			nurses = Arrays.asList(nursesArray);
 
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+	}
+  
   @PostMapping("/login")
   
   public @ResponseBody ResponseEntity<Boolean> login(@RequestBody Nurse inputNurse){
@@ -43,11 +51,9 @@ public class NurseController {
 	  return ResponseEntity.status(found ? HttpsStatus.OK : HttpsStatus.UNAUTHORIZED).body(found);  
 	  
   }
-  
 
-
+	@GetMapping("/index")
+	public List<Nurse> getAll() {
+		return nurses;
+	}
 }
-
-
-
-  
