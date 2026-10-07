@@ -13,13 +13,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/nurse")
 public class NurseController {
+	
+	private List<Nurse> nurses = new ArrayList<>();
 
-    private List<Nurse> nurses = new ArrayList<>();
+	// Constructor
+	public NurseController() {
 
-    // Constructor
-    public NurseController() {
-    	
-    }
+		try {
 
-    
+			InputStream inputStream = getClass().getResourceAsStream("/nurses.json");
+
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			Nurse[] nursesArray = objectMapper.readValue(inputStream, Nurse[].class);
+
+			nurses = Arrays.asList(nursesArray);
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+	}
+  
+  @PostMapping("/login")
+  
+  public @ResponseBody ResponseEntity<Boolean> login(@RequestBody Nurse inputNurse){
+	  
+	  boolean found = false;
+	  for(Nurse n : nurses) {
+		  
+		  if((n.getUser().equals(inputNurse.getUser)) && (n.getPw().equals(inputNurse.getPw())) {
+			  found = true;
+			  break;
+		  }  
+	  }	     
+	  return ResponseEntity.status(found ? HttpsStatus.OK : HttpsStatus.UNAUTHORIZED).body(found);  
+	  
+  }
+
+	@GetMapping("/index")
+	public List<Nurse> getAll() {
+		return nurses;
+	}
 }
