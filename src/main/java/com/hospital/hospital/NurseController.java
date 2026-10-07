@@ -57,3 +57,14 @@ public class NurseController {
 		return nurses;
 	}
 }
+
+
+@GetMapping("/name/{name}")
+public Nurse findByName(@PathVariable String name) {
+    for (Nurse nurse : nurses) {
+        if (nurse.getName().equalsIgnoreCase(name)) {
+            return nurse;
+        }
+    }
+    return null;
+}
